@@ -1,0 +1,23 @@
+{
+  "name": "sass-themy",
+  "description": "Simple Sass library for theme managing.",
+  "main": "_themy.scss",
+  "authors": [
+    "Marcin Kokoszka"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "sass",
+    "theme",
+    "themy"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/M4rc1nV/sass-themy"
+}
