@@ -11,7 +11,6 @@
     "theme",
     "themy"
   ],
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
