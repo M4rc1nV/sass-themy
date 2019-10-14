@@ -1,0 +1,84 @@
+$themy: () !default;
+$themy-current: () !default;
+
+// An example of simple themes configuration
+$themy: (
+  'light': (
+    'color': black,
+    'background-color': white
+  ),
+  'dark': (
+    'color': white,
+    'background-color': #333
+  )
+);
+
+@mixin themy($themes: $themy) {
+  @if type-of($themes)==string {
+    @if map-has-key($themy, $themes) {
+      $themes: ($themes: map-get($themy, $themes));
+    }
+
+    @else {
+      @warn "[sass-themy] There is no theme named: #{$themes}";
+      
+    }
+  }
+
+  @if type-of($themes) !=map {
+    $themes: ();
+  }
+
+  @each $theme,
+  $styles in $themes {
+    $themy-current: $styles !global;
+
+    [data-theme="#{$theme}"] & {
+      @content;
+    }
+
+    $themy-current: null !global;
+  }
+}
+
+;
+
+@function themy($style, $theme: $themy-current) {
+  @if $theme==null {
+    @error "[sass-themy] Calling themy function is only available in themy mixin or after specifying theme name/map in function arguments!";
+  }
+
+  @if type-of($theme)==string {
+    @if map-has-key($themy, $theme) {
+      $theme: map-get($themy, $theme);
+    }
+
+    @else {
+      @error "[sass-themy] There is no theme named: #{$theme}";
+    }
+  }
+
+  @if type-of($theme) !=map {
+    @error "[sass-themy] Theme is not a map!";
+  }
+
+  @return map-get($theme, $style);
+}
+
+// An example of style 
+// ----------
+// div {
+//   @include themy() {
+//     color: themy('color', 'light');
+//     background-color: themy('background-color');
+//   }
+// }
+// 
+// div.dark {
+//   @include themy('dark') {
+//     color: themy('color');
+//     background-color: themy(background-color, (
+//       'background-color': #666
+//     ));
+//   }
+// }
