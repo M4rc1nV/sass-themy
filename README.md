@@ -21,7 +21,7 @@ npm install sass-themy
 
 ## Usage
 
-Documentation available [here](https://m4rc1nv.github.io/sass-themy)
+Documentation available [here](https://m4rc1nv.github.io/sass-themy/)
 
 ## Author
 
