@@ -1,0 +1,160 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Sass-themy - v0.1.0</title><link rel="stylesheet" href="assets/css/main.css"><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700" rel="stylesheet" type="text/css"><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="Sass-themy - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>Simple Sass library for theme managing.</p>
+"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><h1 class="sidebar__title"><a href="https://github.com/M4rc1nV/sass-themy#readme">Sass-themy - v0.1.0</a></h1></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="undefined"><a href="#undefined">General</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-variable"><a href="#undefined-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="themy" data-type="variable"><a href="#undefined-variable-themy">themy</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-mixin"><a href="#undefined-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="themy" data-type="mixin"><a href="#undefined-mixin-themy">themy</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-function"><a href="#undefined-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="themy" data-type="function"><a href="#undefined-function-themy">themy</a></li><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="_themy-str-replace" data-type="function"><a href="#undefined-function-_themy-str-replace">_themy-str-replace</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><h1 class="main__heading" id="undefined"><div class="container">General</div></h1><section class="main__sub-section" id="undefined-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="undefined-variable-themy"><h3 class="item__heading"><a class="item__name" href="#variable-themy">themy</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$themy: (
+	&#39;_selector&#39;: &#39;&amp;[data-theme][data-theme=&quot;{$}&quot;], [data-theme=&quot;{$}&quot;] &amp;, [data-theme] [data-theme=&quot;{$}&quot;] &amp;&#39;
+) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Themy configuration variable. Properties that start with &quot;_&quot; are used as settings, and the other properties represent themes.</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>_default</code></th><td data-label="desc"><p>Sets default theme, which is used to stylize the selector if no theme is specified and to get value ​​if the style does not exist in another theme</p></td><td data-label="type"><code>String or map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>_selector</code></th><td data-label="desc"><p>Sets theme selector ( will be replaced with theme name)</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Example configuration</p></div><pre class="example__code language-scss"><code>$themy: map-merge($themy, (
+	&#39;_default&#39;: &#39;light&#39;,
+	&#39;light&#39;: (
+		&#39;primary-color&#39;: dodgerblue,
+		&#39;accent-color&#39;: deeppink,
+		&#39;background-color&#39;: white
+	),
+	&#39;dark&#39;: (
+		&#39;primary-color&#39;: #1f1f1f,
+		&#39;accent-color&#39;: violet,
+		&#39;background-color&#39;: #121212
+	)
+));</code></pre></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#undefined-mixin-themy"><code>themy</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#undefined-function-themy"><code>themy</code></a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li><p>Marcin Kokoszka</p></li></ul></section></section><section class="main__sub-section" id="undefined-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="undefined-mixin-themy"><h3 class="item__heading"><a class="item__name" href="#mixin-themy">themy</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin themy($args...) { 
+	$names: ();
+	$themes: $themy;
+
+	@each $arg in $args {
+		@if type-of($arg) == string {
+			$names: append($names, $arg);
+		} @else if type-of($arg) == list {
+			$names: join($names, $arg);
+		} @else if type-of($arg) == map {
+			$themes: map-merge($themes, $arg);
+		}
+	}
+
+	@if map-has-key($themes, &#39;_default&#39;){
+		$theme: null;
+		@if type-of(map-get($themes, &#39;_default&#39;)) == string and map-has-key($themes, map-get($themes, &#39;_default&#39;)) and type-of(map-get($themes, map-get($themes, &#39;_default&#39;))) == map {
+			$theme: map-get($themes, map-get($themes, &#39;_default&#39;));
+		} @else if type-of(map-get($themes, &#39;_default&#39;)) == map {
+			$theme: map-get($themes, &#39;_default&#39;);
+		}
+
+		@if $theme != null {
+			$themes: map-merge($themes, (&#39;_theme&#39;: $theme)) !global;
+			&amp; {
+				@content;
+			}
+			$themes: map-remove($themes, &#39;_theme&#39;) !global;
+		}
+	}
+
+	@each $name, $theme in $themes {
+		@if str-index($name, &#39;_&#39;) != 1{
+			@if length($names) == 0 or index($names, $name) != null {
+				@if map-has-key($themes, &#39;_selector&#39;) and type-of(map-get($themes, &#39;_selector&#39;)) == string {
+					$themy: map-merge($themy, (&#39;_theme&#39;: $theme)) !global;
+					$selector: _themy-str-replace(map-get($themes, &#39;_selector&#39;), &#39;{$}&#39;, $name);
+					#{$selector} {
+						@content;
+					}
+					$themy: map-remove($themy, &#39;_theme&#39;) !global;
+				} @else {
+					@warn &quot;[sass-themy] Theme selector not specified!&quot;;
+				}
+			}
+		}
+	}
+ }" data-collapsed="@mixin themy($args...) { ... }"><code>@mixin themy($args...) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Mixin used to iterate throught themes.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$args</code></th><td data-label="desc"><p>String and list arguments append to theme list you want to stylize, map arguments merge and override configuration.</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>All themes selection</p></div><pre class="example__code language-scss"><code>@include themy() { ... }</code></pre></div><div class="item__example example"><div class="example__description"><p>One theme selection</p></div><pre class="example__code language-scss"><code>@include themy(&#39;dark&#39;) { ... }</code></pre></div><div class="item__example example"><div class="example__description"><p>Multiple theme selection</p></div><pre class="example__code language-scss"><code>@include themy(&#39;light&#39; &#39;dark&#39;, &#39;rainbow&#39;) { ... }</code></pre></div><div class="item__example example"><div class="example__description"><p>Multiple theme selection with overriding themes styles</p></div><pre class="example__code language-scss"><code>@include themy(&#39;light&#39;, &#39;dark&#39;, (
+ &#39;light&#39;: (
+ 	&#39;primary-color&#39;: deekskyblue
+ ), 
+  &#39;dark&#39;: (
+ 	&#39;primary-color&#39;: gray
+ )
+)) { ... }</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#undefined-function-_themy-str-replace"><code>_themy-str-replace</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#undefined-variable-themy"><code>themy</code></a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li><p>Marcin Kokoszka</p></li></ul></section></section><section class="main__sub-section" id="undefined-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="undefined-function-themy"><h3 class="item__heading"><a class="item__name" href="#function-themy">themy</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function themy($args...) { 
+	$styles: null;
+	$theme: null;
+	$themes: $themy;
+
+	@each $arg in $args {
+		@if type-of($arg) == list {
+			@if $theme == null and type-of($styles) == string {
+				$theme: $styles;
+			}
+			$styles: $arg;
+		}
+		@else if type-of($arg) == string {
+			@if $styles == null {
+				$styles: $arg;
+			} @else {
+				$theme: $arg;
+			}
+		}
+		@else if type-of($arg) == map {
+			$themes: map-merge($themes, $arg);
+		}
+	}
+
+	@if type-of($theme) == string and map-has-key($themes, $theme) and type-of(map-get($themes, $theme)) == map {
+		$theme: map-get($themes, $theme);
+	} @else if $theme == null {
+		@if map-has-key($themes, &#39;_theme&#39;) {
+			$theme: map-get($themes, &#39;_theme&#39;);
+		} @else if map-has-key($themes, &#39;_default&#39;) {
+			@if type-of(map-get($themes, &#39;_default&#39;)) == string and map-has-key($themes, map-get($themes, &#39;_default&#39;)) and type-of(map-get($themes, map-get($themes, &#39;_default&#39;))) == map {
+				$theme: map-get($themes, map-get($themes, &#39;_default&#39;));
+			} @else if type-of(map-get($themes, &#39;_default&#39;)) == map {
+				$theme: map-get($themes, &#39;_default&#39;);
+			}
+		}
+
+		@if $theme == null {
+			@warn &quot;[sass-themy] Theme not specified! Initial value will be returned!&quot;;
+			@return initial;
+		}
+	}
+
+	$value: ();
+	@each $style in $styles {
+		@if map-has-key($theme, $style) {
+			$value: append($value, map-get($theme, $style));
+		} @else if map-has-key($themes, &#39;_default&#39;) {
+			@if type-of(map-get($themes, &#39;_default&#39;)) == string and map-has-key($themes, map-get($themes, &#39;_default&#39;)) and type-of(map-get($themes, map-get($themes, &#39;_default&#39;))) == map and map-has-key(map-get($themes, map-get($themes, &#39;_default&#39;)), $style) {
+				$value: append($value, map-get(map-get($themes, map-get($themes, &#39;_default&#39;)), $style));
+			} @else if type-of(map-get($themes, &#39;_default&#39;)) == map and map-has-key(map-get($themes, &#39;_default&#39;), $style){
+				$value: append($value, map-get(map-get($themes, &#39;_default&#39;), $style));
+			}
+		}
+	}
+
+	@if length($value) == 0 {
+		@warn &quot;[sass-themy] No styles found in theme! Initial value will be returned!&quot;;
+		@return initial;
+	}
+
+	@return $value;
+ }" data-collapsed="@function themy($args...) { ... }"><code>@function themy($args...) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Function used to get theme styles.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$args</code></th><td data-label="desc"><p>First string argument is wanted style name, second string is theme name (by default theme name is set to current iterated theme). List arguments overrides style name with styles list (if theme name not specified, overrided style name becomes theme name), map arguments merge and override configuration.</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Getting iterated theme background color style</p></div><pre class="example__code language-scss"><code>body{
+  @include themy() {
+	  background-color: themy(&#39;background-color&#39;);
+  } 
+}</code></pre></div><div class="item__example example"><div class="example__description"><p>Getting background color style from light theme</p></div><pre class="example__code language-scss"><code>body{
+	background-color: themy(&#39;background-color&#39;, &#39;light&#39;);
+}</code></pre></div><div class="item__example example"><div class="example__description"><p>Getting overrided background color style from light theme</p></div><pre class="example__code language-scss"><code>body{
+  background-color: themy(&#39;background-color&#39;, &#39;light&#39;, (
+    &#39;light&#39;: (
+      &#39;background-color&#39;: orange
+    )
+  ));
+}</code></pre></div><div class="item__example example"><div class="example__description"><p>Getting multiple styles from iterated theme</p></div><pre class="example__code language-scss"><code>.box{
+	@include themy(){
+		border: themy(&#39;border-width&#39; &#39;border-style&#39; &#39;border-color&#39;);
+	}
+}</code></pre></div><div class="item__example example"><div class="example__description"><p>Getting multiple styles from light theme</p></div><pre class="example__code language-scss"><code>.box {
+  border: themy(&#39;light&#39;, &#39;border-width&#39; &#39;border-style&#39; &#39;border-color&#39;);
+  // or
+  border: themy(&#39;border-width&#39; &#39;border-style&#39; &#39;border-color&#39;, &#39;light&#39;);
+}</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#undefined-variable-themy"><code>themy</code></a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li><p>Marcin Kokoszka</p></li></ul></section><section class="main__item container item" id="undefined-function-_themy-str-replace"><h3 class="item__heading"><span class="item__access">[private]</span> <a class="item__name" href="#function-_themy-str-replace">_themy-str-replace</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function _themy-str-replace($string, $search, $replace: &#39;&#39;) { 
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + _themy-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+ }" data-collapsed="@function _themy-str-replace($string, $search, $replace: &#39;&#39;) { ... }"><code>@function _themy-str-replace($string, $search, $replace: &#39;&#39;) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Replace <code>$search</code> with <code>$replace</code> in <code>$string</code></p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$string</code></th><td data-label="desc"><p>Initial string</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$search</code></th><td data-label="desc"><p>Substring to replace</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$replace</code></th><td data-label="desc"><p>New value</p></td><td data-label="type"><code>String</code></td><td data-label="default"><code>&#39;&#39;</code></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>String</code> &mdash;<p>Updated string</p></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#undefined-mixin-themy"><code>themy</code></a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li><p>Hugo Giraudel</p></li></ul></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --> <a class="project-info__name" href="https://github.com/M4rc1nV/sass-themy#readme">Sass-themy</a><!-- Version --> <span class="project-info__version">- v0.1.0</span><!-- License --> <span class="project-info__license">, under MIT</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>
