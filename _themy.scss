@@ -1,84 +1,226 @@
-$themy: () !default;
-$themy-current: () !default;
+////
+/// Simple Sass library for theme managing.
+/// @access public
+/// @author Marcin Kokoszka
+////
 
-// An example of simple themes configuration
+/// Themy configuration variable. Properties that start with "_" are used as settings, and the other properties represent themes.
+///
+/// @type Map
+///
+/// @prop {String or Map} _default - Sets default theme, which is used to stylize the selector if no theme is specified and to get value ​​if the style does not exist in another theme
+/// 
+/// @prop {String} _selector - Sets theme selector ( will be replaced with theme name)
+///
+/// @example scss - Example configuration
+///  $themy: map-merge($themy, (
+///  	'_default': 'light',
+///  	'light': (
+///  		'primary-color': dodgerblue,
+///  		'accent-color': deeppink,
+///  		'background-color': white
+///  	),
+///  	'dark': (
+///  		'primary-color': #1f1f1f,
+///  		'accent-color': violet,
+///  		'background-color': #121212
+///  	)
+///  ));
+///
 $themy: (
-  'light': (
-    'color': black,
-    'background-color': white
-  ),
-  'dark': (
-    'color': white,
-    'background-color': #333
-  )
-);
+	'_selector': '&[data-theme][data-theme="{$}"], [data-theme="{$}"] &, [data-theme] [data-theme="{$}"] &'
+) !default;
 
-@mixin themy($themes: $themy) {
-  @if type-of($themes)==string {
-    @if map-has-key($themy, $themes) {
-      $themes: ($themes: map-get($themy, $themes));
-    }
+/// Mixin used to iterate throught themes. 
+/// 
+/// @param {Arglist} $args - String and list arguments append to theme list you want to stylize, map arguments merge and override configuration.
+///
+/// @require {variable} themy
+///
+/// @example scss - All themes selection
+///		@include themy() { ... }
+///	
+/// @example scss - One theme selection
+///		@include themy('dark') { ... }
+///
+/// @example scss - Multiple theme selection
+///		@include themy('light' 'dark', 'rainbow') { ... }
+///
+/// @example scss - Multiple theme selection with overriding themes styles
+///   @include themy('light', 'dark', (
+/// 	  'light': (
+/// 	  	'primary-color': deekskyblue
+/// 	  ), 
+///     'dark': (
+/// 	  	'primary-color': gray
+/// 	  )
+///   )) { ... }
+///
+@mixin themy($args...) {
+	$names: ();
+	$themes: $themy;
 
-    @else {
-      @warn "[sass-themy] There is no theme named: #{$themes}";
-      
-    }
-  }
+	@each $arg in $args {
+		@if type-of($arg) == string {
+			$names: append($names, $arg);
+		} @else if type-of($arg) == list {
+			$names: join($names, $arg);
+		} @else if type-of($arg) == map {
+			$themes: map-merge($themes, $arg);
+		}
+	}
 
-  @if type-of($themes) !=map {
-    $themes: ();
-  }
+	@if map-has-key($themes, '_default'){
+		$theme: null;
+		@if type-of(map-get($themes, '_default')) == string and map-has-key($themes, map-get($themes, '_default')) and type-of(map-get($themes, map-get($themes, '_default'))) == map {
+			$theme: map-get($themes, map-get($themes, '_default'));
+		} @else if type-of(map-get($themes, '_default')) == map {
+			$theme: map-get($themes, '_default');
+		}
 
-  @each $theme,
-  $styles in $themes {
-    $themy-current: $styles !global;
+		@if $theme != null {
+			$themes: map-merge($themes, ('_theme': $theme)) !global;
+			& {
+				@content;
+			}
+			$themes: map-remove($themes, '_theme') !global;
+		}
+	}
 
-    [data-theme="#{$theme}"] & {
-      @content;
-    }
-
-    $themy-current: null !global;
-  }
+	@each $name, $theme in $themes {
+		@if str-index($name, '_') != 1{
+			@if length($names) == 0 or index($names, $name) != null {
+				@if map-has-key($themes, '_selector') and type-of(map-get($themes, '_selector')) == string {
+					$themy: map-merge($themy, ('_theme': $theme)) !global;
+					$selector: _themy-str-replace(map-get($themes, '_selector'), '{$}', $name);
+					#{$selector} {
+						@content;
+					}
+					$themy: map-remove($themy, '_theme') !global;
+				} @else {
+					@warn "[sass-themy] Theme selector not specified!";
+				}
+			}
+		}
+	}
 }
 
-;
+/// Function used to get theme styles.
+///
+/// @param {Arglist} $args - First string argument is wanted style name, second string is theme name (by default theme name is set to current iterated theme). List arguments overrides style name with styles list (if theme name not specified, overrided style name becomes theme name), map arguments merge and override configuration.
+///
+/// @example scss - Getting iterated theme background color style
+///  body{
+///    @include themy() {
+///  	  background-color: themy('background-color');
+///    } 
+///  }
+///
+/// @example scss - Getting background color style from light theme
+///  body{
+///  	background-color: themy('background-color', 'light');
+///  }
+///
+/// @example scss - Getting overrided background color style from light theme
+///  body{
+///    background-color: themy('background-color', 'light', (
+///      'light': (
+///        'background-color': orange
+///      )
+///    ));
+///  }
+///
+/// @example scss - Getting multiple styles from iterated theme
+///  .box{
+///  	@include themy(){
+///  		border: themy('border-width' 'border-style' 'border-color');
+///  	}
+///  }
+///
+/// @example scss - Getting multiple styles from light theme
+///  .box {
+///    border: themy('light', 'border-width' 'border-style' 'border-color');
+///    // or
+///    border: themy('border-width' 'border-style' 'border-color', 'light');
+///  }
+///
+@function themy($args...) {
+	$styles: null;
+	$theme: null;
+	$themes: $themy;
 
-@function themy($style, $theme: $themy-current) {
-  @if $theme==null {
-    @error "[sass-themy] Calling themy function is only available in themy mixin or after specifying theme name/map in function arguments!";
-  }
+	@each $arg in $args {
+		@if type-of($arg) == list {
+			@if $theme == null and type-of($styles) == string {
+				$theme: $styles;
+			}
+			$styles: $arg;
+		}
+		@else if type-of($arg) == string {
+			@if $styles == null {
+				$styles: $arg;
+			} @else {
+				$theme: $arg;
+			}
+		}
+		@else if type-of($arg) == map {
+			$themes: map-merge($themes, $arg);
+		}
+	}
 
-  @if type-of($theme)==string {
-    @if map-has-key($themy, $theme) {
-      $theme: map-get($themy, $theme);
-    }
+	@if type-of($theme) == string and map-has-key($themes, $theme) and type-of(map-get($themes, $theme)) == map {
+		$theme: map-get($themes, $theme);
+	} @else if $theme == null {
+		@if map-has-key($themes, '_theme') {
+			$theme: map-get($themes, '_theme');
+		} @else if map-has-key($themes, '_default') {
+			@if type-of(map-get($themes, '_default')) == string and map-has-key($themes, map-get($themes, '_default')) and type-of(map-get($themes, map-get($themes, '_default'))) == map {
+				$theme: map-get($themes, map-get($themes, '_default'));
+			} @else if type-of(map-get($themes, '_default')) == map {
+				$theme: map-get($themes, '_default');
+			}
+		}
 
-    @else {
-      @error "[sass-themy] There is no theme named: #{$theme}";
-    }
-  }
+		@if $theme == null {
+			@warn "[sass-themy] Theme not specified! Initial value will be returned!";
+			@return initial;
+		}
+	}
 
-  @if type-of($theme) !=map {
-    @error "[sass-themy] Theme is not a map!";
-  }
+	$value: ();
+	@each $style in $styles {
+		@if map-has-key($theme, $style) {
+			$value: append($value, map-get($theme, $style));
+		} @else if map-has-key($themes, '_default') {
+			@if type-of(map-get($themes, '_default')) == string and map-has-key($themes, map-get($themes, '_default')) and type-of(map-get($themes, map-get($themes, '_default'))) == map and map-has-key(map-get($themes, map-get($themes, '_default')), $style) {
+				$value: append($value, map-get(map-get($themes, map-get($themes, '_default')), $style));
+			} @else if type-of(map-get($themes, '_default')) == map and map-has-key(map-get($themes, '_default'), $style){
+				$value: append($value, map-get(map-get($themes, '_default'), $style));
+			}
+		}
+	}
 
-  @return map-get($theme, $style);
+	@if length($value) == 0 {
+		@warn "[sass-themy] No styles found in theme! Initial value will be returned!";
+		@return initial;
+	}
+
+	@return $value;
 }
 
-// An example of style 
-// ----------
-// div {
-//   @include themy() {
-//     color: themy('color', 'light');
-//     background-color: themy('background-color');
-//   }
-// }
-// 
-// div.dark {
-//   @include themy('dark') {
-//     color: themy('color');
-//     background-color: themy(background-color, (
-//       'background-color': #666
-//     ));
-//   }
-// }
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @access private
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace [''] - New value
+/// @return {String} - Updated string
+@function _themy-str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + _themy-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
