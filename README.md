@@ -1,5 +1,6 @@
 # sass-themy
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
+![npm](https://img.shields.io/npm/v/sass-themy)
+![Bower](https://img.shields.io/bower/v/sass-themy)
 [![License: MIT](https://img.shields.io/github/license/M4rc1nV/sass-themy)](https://github.com/M4rc1nV/sass-themy/blob/master/LICENSE)
 
 > Simple Sass library for theme managing.
@@ -17,6 +18,10 @@ bower install sass-themy
 ```sh
 npm install sass-themy
 ```
+
+## Usage
+
+Documentation available [here](https://m4rc1nv.github.io/sass-themy)
 
 ## Author
 
