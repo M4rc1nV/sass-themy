@@ -10,7 +10,7 @@
 ///
 /// @prop {String or Map} _default - Sets default theme, which is used to stylize the selector if no theme is specified and to get value ​​if the style does not exist in another theme
 /// 
-/// @prop {String} _selector - Sets theme selector ( will be replaced with theme name)
+/// @prop {String} _selector - Sets theme selector ("&#123;$&#125;" will be replaced with theme name)
 ///
 /// @example scss - Example configuration
 ///  $themy: map-merge($themy, (
